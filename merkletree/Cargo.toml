@@ -1,0 +1,8 @@
+[package]
+name = "merkletree"
+version = "0.1.0"
+authors = ["Ettore Del Negro <ettore@themecraft.studio>"]
+edition = "2018"
+
+[dependencies]
+sha3 = "0.8.2"
