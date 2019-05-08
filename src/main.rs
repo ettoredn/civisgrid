@@ -12,7 +12,7 @@ fn main() -> () {
     // *b = 123; // Deref trait
     // dbg!(b);
 
-    println!("CIVISgrid");
+    println!("+++ CIVISgrid +++");
 
     let mut data: Vec<Vec<u8>> = Vec::new();
     for d in 1..=8 {
@@ -23,6 +23,8 @@ fn main() -> () {
 
     let tree = merkletree::MerkleTree::from_data(&refs);
 
-    dbg!(&tree);
-    println!("Merkle tree nodes={} leaves={}", tree.count_nodes(), tree.count_leaves());
+    // dbg!(&tree);
+    let leaves = tree.count_leaves();
+    let branches = tree.count_nodes() - leaves;
+    println!("Merkle tree leaves={} branches={}", leaves, branches);
 }

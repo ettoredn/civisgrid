@@ -196,4 +196,18 @@ mod tests {
         assert_eq!(tree.count_nodes(), 256+255);
         assert_eq!(tree.count_leaves(), data.len());
     }
+
+    #[test]
+    fn tree_nodes_sample() {
+        for leaves_count in 1..=200 {
+            let data: Vec<Vec<u8>> = make_data(leaves_count);
+            let data_refs: Vec<&[u8]> = make_data_refs(&data);
+
+            let tree = MerkleTree::from_data(&data_refs);
+            let leaves = tree.count_leaves();
+            let branches = tree.count_nodes() - leaves;
+            println!("Merkle tree leaves={} branches={} leaves-branches={}", leaves, branches, leaves-branches);
+            assert_eq!(branches, leaves - 1);
+        }
+    }
 }
