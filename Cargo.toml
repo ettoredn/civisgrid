@@ -1,8 +1,9 @@
 [package]
-name = "merkletree"
+name = "civisgrid"
 version = "0.1.0"
 authors = ["Ettore Del Negro <ettore@themecraft.studio>"]
 edition = "2018"
 
 [dependencies]
 sha3 = "0.8.2"
+faster-hex = "0.3.1"

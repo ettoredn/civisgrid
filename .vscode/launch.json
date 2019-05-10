@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'merkletree'",
+            "name": "Debug executable 'civisgrid'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=merkletree",
-                    "--package=merkletree"
+                    "--bin=civisgrid",
+                    "--package=civisgrid"
                 ],
                 "filter": {
-                    "name": "merkletree",
+                    "name": "civisgrid",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'merkletree'",
+            "name": "Debug unit tests in executable 'civisgrid'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=merkletree",
-                    "--package=merkletree"
+                    "--bin=civisgrid",
+                    "--package=civisgrid"
                 ],
                 "filter": {
-                    "name": "merkletree",
+                    "name": "civisgrid",
                     "kind": "bin"
                 }
             },
