@@ -9,7 +9,7 @@ use faster_hex::{hex_string};
 
 #[derive(Debug, Clone)]
 enum NodeType<'a> {
-    Branch{ 
+    Branch{
         left: Rc<Node<'a>>, // shared ownership
         right: Rc<Node<'a>>, // shared ownership
     },
@@ -133,7 +133,7 @@ impl<'a> MerkleTree<'a> {
      * the current method requires knowledge of the tree structure
      * in order to properly concatenate hashes (left||right !== right||left)s
      */
-    fn authenticate(&self, data: &'a [u8], proof: &[String]) -> bool {
+    pub fn authenticate(&self, data: &'a [u8], proof: &[String]) -> bool {
         let mut node = match self.nodes.get(&MerkleTree::make_label(data)) {
             Some(n) => n.clone(),
             None => return false
@@ -254,6 +254,7 @@ impl<'a> MerkleTree<'a> {
 #[cfg(test)]
 mod tests {
     use super::*; // includes private functions
+    use rand::{thread_rng, Rng};
 
     fn make_data(amount: usize) -> Vec<Vec<u8>> {
         let mut data: Vec<Vec<u8>> = Vec::new();
@@ -366,6 +367,10 @@ mod tests {
         ]);
         assert!(tree.authenticate(datum, &proof));
 
+        let datum: &[u8] = data_refs[thread_rng().gen_range(0u8, 5u8) as usize];
+        let proof = tree.make_proof(datum).unwrap();
+        assert!(tree.authenticate(datum, &proof), format!("Invalid proof for {:?}", datum));
+
         assert!(tree.make_proof(&[6u8]).is_err());
     }
 
@@ -378,8 +383,8 @@ mod tests {
         assert_eq!(tree.count_leaves(), 1);
         assert_eq!(tree.count_nodes(), 1);
         assert_eq!(tree.node_depth(&tree.root), 0);
-        assert!(tree.make_proof(&[1u8]).unwrap().is_empty());
 
+        assert!(tree.make_proof(refs[0]).unwrap().is_empty());
         assert!(tree.authenticate(refs[0], &tree.make_proof(refs[0]).unwrap()));
     }
 }

@@ -1,9 +1,10 @@
 [package]
 name = "civisgrid"
 version = "0.1.0"
-authors = ["Ettore Del Negro <ettore@themecraft.studio>"]
+authors = ["Ettore Del Negro <ettore@ettoredelnegro.pro>"]
 edition = "2018"
 
 [dependencies]
 sha3 = "0.8.2"
 faster-hex = "0.3.1"
+rand = "0.6.5"

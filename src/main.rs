@@ -22,10 +22,6 @@ fn main() -> () {
     let refs: Vec<&[u8]> = data.iter().map(|d| d.as_slice()).collect();
 
     let tree = merkletree::MerkleTree::from_data(&refs);
-    let _proof = tree.make_proof(&[5u8]);
-
-    // dbg!(&tree);
-    // let leaves = tree.count_leaves();
-    // let branches = tree.count_nodes() - leaves;
-    // println!("Merkle tree leaves={} branches={}", leaves, branches);
+    let proof = tree.make_proof(refs[5]).unwrap();
+    assert!(tree.authenticate(refs[5], &proof));
 }
