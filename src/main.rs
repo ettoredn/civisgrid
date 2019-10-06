@@ -15,13 +15,14 @@ fn main() -> () {
     println!("+++ CIVISgrid +++");
 
     let mut data: Vec<Vec<u8>> = Vec::new();
-    for d in 1..=8 {
+    for d in 1..=9 {
         // data.push(format!("Id = {}", d).into_bytes());
         data.push(vec![d as u8]);
     }
     let refs: Vec<&[u8]> = data.iter().map(|d| d.as_slice()).collect();
 
     let tree = merkletree::MerkleTree::from_data(&refs);
+    dbg!(&tree);
     let proof = tree.make_proof(refs[5]).unwrap();
     assert!(tree.authenticate(refs[5], &proof));
 }

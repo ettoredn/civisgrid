@@ -49,6 +49,12 @@ impl<'a> fmt::Debug for MerkleTree<'a> {
 impl<'a> MerkleTree<'a> {
     /**
      * Time complexity wrt data items: n + log2(n)
+     * 
+     * NEW ALGO TODO for proper+complete binary tree
+     * - let complete_tree = make_tree(leaves.rev()[0..floor(log2(leaves.length))])
+     *     ^--> create a proper and complete tree starting from the _last_ "smallest power of 2" leaves
+     * - add new level s.t. 
+     * 
      */
     pub fn from_data(data: &[&'a[u8]]) -> MerkleTree<'a> {
         // Stores branches for the 'current' tree level to be processed
@@ -94,6 +100,11 @@ impl<'a> MerkleTree<'a> {
 
         tree
     }
+
+    // #[allow(dead_code)]
+    // pub fn complete_from_data(data: &[&'a[u8]]) -> MerkleTree<'a> {
+
+    // }
 
     /**
      * [Auth0, Auth1, .., Auth(i)] where 0 <= i < Height
@@ -299,6 +310,13 @@ mod tests {
         let data_refs: Vec<&[u8]> = make_data_refs(&data);
         let tree = MerkleTree::from_data(&data_refs);
 
+        let rightmost = dbg!(tree.nodes.get("8bf02b8b238233453488311be9b316e58ab7e1356ce948cb90dfef1af56992eb").unwrap()); //9
+        let leftmost = dbg!(tree.nodes.get("2767f15c8af2f2c7225d5273fdd683edc714110a987d1054697c348aed4e6cc7").unwrap()); //1
+        let center = dbg!(tree.nodes.get("989216075a288af2c12f115557518d248f93c434965513f5f739df8c9d6e1932").unwrap()); // 4
+        dbg!(tree.node_depth(rightmost));
+        dbg!(tree.node_depth(leftmost));
+        dbg!(tree.node_depth(center));
+
         assert_eq!(tree.node_depth(&tree.root), 0);
 
         match &tree.root.r#type {
@@ -386,5 +404,24 @@ mod tests {
 
         assert!(tree.make_proof(refs[0]).unwrap().is_empty());
         assert!(tree.authenticate(refs[0], &tree.make_proof(refs[0]).unwrap()));
+    }
+
+    #[test]
+    fn complete_tree() {
+        // Complete (=> balanced, but not perfect) proper binary tree
+        for ln in 1..1000 {
+            // Levels start from 0 i.e. = depth
+            let last_filled_level = (ln as f64).log2().floor() as u32;
+            let leaves_on_last_level = (ln - 2usize.pow(last_filled_level)) * 2; // multiple of 2
+
+            println!("Leaves={}, last_filled_level={}, leaves_last_level={}", ln, last_filled_level, leaves_on_last_level);
+            assert!(leaves_on_last_level < 2usize.pow(last_filled_level+1));
+
+            assert_eq!(leaves_on_last_level % 2, 0);
+            // put first <leaves_on_last_level> leaves on the stack in rev order   | O(L-1)
+            // while (take 2 nodes from the stack):
+            //   make parent branch;                                               | O(k)
+            //   push branch on TOP of the stack;                                  | O(2)
+        }
     }
 }
