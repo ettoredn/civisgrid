@@ -2,10 +2,6 @@
  * https://medium.com/lgogroup/a-matching-engine-for-our-values-part-2-60b71c9eef26 
  * https://medium.com/lgogroup/a-matching-engine-for-our-values-part-1-795a29b400fa 
  * https://www.ralfj.de/blog/2019/07/14/uninit.html
- * Crypto exchanges providing order flow:
- *  - Coinbase https://docs.pro.coinbase.com/#the-full-channel
- *  - Bitstamp https://www.bitstamp.net/websocket/v2/
- * Coinbase Pro operates a continuous first-come, first-serve order book. Orders are executed in price-time priority as received by the matching engine.
  */
 #![allow(dead_code)]
 #![allow(unused)]
